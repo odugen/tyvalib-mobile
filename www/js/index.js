@@ -17,26 +17,64 @@
  * under the License.
  */
 var app = {
-    initialize: function() {
-        this.bind();
+    // Application Constructor
+    initialize: function () {
+        jQuery.support.cors = true;
+        this.bindEvents();
     },
-    bind: function() {
-        document.addEventListener('deviceready', this.deviceready, false);
+    // Bind Event Listeners
+    //
+    // Bind any events that are required on startup. Common events are:
+    // `load`, `deviceready`, `offline`, and `online`.
+    bindEvents: function () {
+        document.addEventListener('deviceready', this.onDeviceReady, false);
     },
-    deviceready: function() {
-        // This is an event handler function, which means the scope is the event.
-        // So, we must explicitly called `app.report()` instead of `this.report()`.
-        app.report('deviceready');
+    // deviceready Event Handler
+    //
+    // The scope of `this` is the event. In order to call the `receivedEvent`
+    // function, we must explicity call `app.receivedEvent(...);`
+    onDeviceReady: function () {
+        $('form').submit(function (e) {
+            e.preventDefault();
+            app.search($('#q').val());
+            return false;
+        });
+        app.search();
     },
-    report: function(id) {
-        // Report the event in the console
-        console.log("Report: " + id);
-
-        // Toggle the state from "pending" to "complete" for the reported ID.
-        // Accomplished by adding .hide to the pending element and removing
-        // .hide from the complete element.
-        document.querySelector('#' + id + ' .pending').className += ' hide';
-        var completeElem = document.querySelector('#' + id + ' .complete');
-        completeElem.className = completeElem.className.split('hide').join('');
+    renderResult: function (data) {
+        var word = '<h3>' + data.word + ' <small>' + data.descriptions.join(', ') + '</small></h3>';
+        console.log('show: ' + word);
+        return word;
+    },
+    search: function (term) {
+        console.log('load recent');
+        $.ajax({
+//            url: 'http://localhost:59468/api/word',
+            url: 'http://tyvalib.ru/api/word',
+            data: { term: term || '' },
+            type: "GET",
+            //contentType: "application/json;charset=utf-8",
+            crossDomain: true,
+            statusCode: {
+                200: function (result) {
+                    console.log('Recent result: ' + JSON.stringify(result));
+                    var $results = $('#results').empty();
+                    $.each(result.words, function () {
+                        var renderResult = app.renderResult(this);
+                        console.log('Render: ' + renderResult);
+                        $results.append(renderResult);
+                    });
+                },
+                404: function () {
+                    $('#results').html('Not found!');
+                }
+            },
+            complete: function () {
+                console.log('complete');
+            },
+            error: function (request, error) {
+                console.log('Request: ' + JSON.stringify(request) + ' Error: ' + JSON.stringify(error));
+            }
+        });
     }
 };
