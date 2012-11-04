@@ -47,9 +47,7 @@ var app = {
             return false;
         };
         $('form')
-        .submit(handle);
-
-        $('#search')
+        //.submit(handle)
         .click(handle);
         app.search();
     },
