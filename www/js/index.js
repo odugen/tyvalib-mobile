@@ -22,6 +22,11 @@ var app = {
         jQuery.support.cors = true;
         this.bindEvents();
     },
+    logCounter: 0,
+    log: function (msg) {
+        msg = (++app.logCounter) + ' ' + msg;
+        $('#logs').prepend('<li>' + msg + '</li>');
+    },
     // Bind Event Listeners
     //
     // Bind any events that are required on startup. Common events are:
@@ -36,7 +41,7 @@ var app = {
     onDeviceReady: function () {
         var handle = function (e) {
             e.preventDefault();
-            console.log('Submit search');
+            app.log('Submit search');
             app.search($('#q').val());
             return false;
         };
@@ -47,12 +52,12 @@ var app = {
     },
     renderResult: function (data) {
         var word = '<h3>' + data.word + ' <small>' + data.descriptions.join(', ') + '</small></h3>';
-        console.log('show: ' + word);
+        app.log('show: ' + word);
         return word;
     },
     counter: 0,
     search: function (term) {
-        console.log('Search ' + term + ' ' + (++app.counter));
+        app.log('Search ' + term + ' ' + (++app.counter));
         $.ajax({
             //            url: 'http://localhost:59468/api/word',
             url: 'http://tyvalib.ru/api/word',
@@ -62,11 +67,11 @@ var app = {
             crossDomain: true,
             statusCode: {
                 200: function (result) {
-                    console.log('Recent result: ' + JSON.stringify(result));
+                    app.log('Recent result: ' + JSON.stringify(result));
                     var $results = $('#results').empty();
                     $.each(result.words, function () {
                         var renderResult = app.renderResult(this);
-                        console.log('Render: ' + renderResult);
+                        app.log('Render: ' + renderResult);
                         $results.append(renderResult);
                     });
                 },
