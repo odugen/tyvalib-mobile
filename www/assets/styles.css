@@ -81,7 +81,7 @@ body {
 
 .data-list-lightweight li,
 .data-list li {
-    cursor:pointer;
+    /*cursor:pointer;*/
     font-size:1em;
 	padding:1em;
 	padding-left:1em;
