@@ -1,0 +1,16 @@
+﻿<div class="gpu" style="background-color: white; margin:0px; padding:0px; padding-bottom: 10px; padding-top: 8px;">
+    <p style="padding-left: 10px; padding-right: 10px; margin:0px; font-size: 1.3em;">
+        "<span class="searchString"><%= HTMLUtil.encode( searchString ) %></span>" - деп сөске тывылганнар
+     </p>
+</div>
+
+<% if ((typeof(words) != "undefined") && words.length > 0) { %>
+    <ul class="data-list" id="list" style="background-color: white; margin:0px; padding:0px; border-bottom: 1px solid #CCC;"></ul>
+<% } else { %>
+    <div style="padding:10px;">
+        <div class="alert alert-error" >
+            Чүнү-даа тып чадап калдывыс.
+            <% words %>
+        </div>
+    </div>
+<% } %>
