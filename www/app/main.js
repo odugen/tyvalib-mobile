@@ -1,6 +1,8 @@
 
 document.addEventListener("deviceready", onDeviceReady, false);
-
+if (window.location && window.location.hash && 0 <= window.location.hash.indexOf('debug')) {
+    setTimeout(onDeviceReady, 500);
+}
 function onDeviceReady() {
     jQuery.support.cors = true;
 

@@ -91,7 +91,7 @@ body {
 	border-bottom:none;
     background-color: white;
 	
-    background-image:url('images/more_disclosure.png');
+    /*background-image:url('images/more_disclosure.png');*/
     background-position:right center;
     background-repeat:no-repeat;
 }
@@ -102,7 +102,7 @@ body {
 	border-top:1px solid #094C99;
 	background-color: #00698C;
     font-weight: bold;
-    background-image:url('images/more_disclosure_white.png');
+    /*background-image:url('images/more_disclosure_white.png');*/
 }
 
 
