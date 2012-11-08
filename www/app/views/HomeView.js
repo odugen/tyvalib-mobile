@@ -8,13 +8,37 @@ window.HomeView = Backbone.View.extend({
         this.render();
         this.view = this.$el;
         document.addEventListener("searchbutton", this.performSearch, false);
+
+        try {
+            var count = amplify.store("count");
+            if (count) {
+                $('#count').html(count);
+                $('#countMessage').show();
+            }
+            var lastAccess = amplify.store("last");
+            if (typeof lastAccess == 'undefined' || (new Date().getMonth() != new Date(lastAccess).getMonth() || new Date(lastAccess).getDay() < new Date().getDay())) {
+                this.getCount();
+                amplify.store("last", new Date());
+            }
+        }
+        catch (e) {
+
+        }
     },
 
     events: {
         "click #search": "performSearch",
         "click .searchlink": "performSearchForLink"
     },
-
+    getCount: function () {
+        SearchManager.search(null,
+            function (count) {
+                $('#count').html(count);
+                $('#countMessage').show();
+                amplify.store("count", count);
+            }
+        );
+    },
     render: function () {
         var template = _.template(templates.homeView);
         var model = { isTablet: NativeUtil.isTablet() };
