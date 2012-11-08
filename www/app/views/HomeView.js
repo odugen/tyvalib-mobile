@@ -7,6 +7,7 @@ window.HomeView = Backbone.View.extend({
     initialize: function () {
         this.render();
         this.view = this.$el;
+        document.addEventListener("searchbutton", this.performSearch, false);
     },
 
     events: {
