@@ -21,8 +21,8 @@ window.SearchView = Backbone.View.extend({
         //delay long enough for transition to complete
         setTimeout(function () {
             console.log('do search');
-             SearchManager.search(self.searchString, self.onSearchResult, self.onSearchError);
-        }, 501);
+            SearchManager.search(self.searchString, self.onSearchResult, self.onSearchError);
+        }, 200);
     },
 
     events: {
@@ -50,7 +50,7 @@ window.SearchView = Backbone.View.extend({
     },
 
     searchError: function (error) {
-         console.log('searchResults error ' + error);
+        console.log('searchResults error ' + error);
         var self = this;
 
         //wait for transition to finish, then cleanup once removed from view

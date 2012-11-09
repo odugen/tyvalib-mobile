@@ -56,19 +56,29 @@ var ViewNavigator = function(target, backLinkCss, bindToWindow) {
 
 };
 
-ViewNavigator.prototype.replaceView = function(viewDescriptor) {
+ViewNavigator.prototype.replaceView = function (viewDescriptor) {
+    var self = this;
+    var doReplace = function () {
+        viewDescriptor.animation = "pushEffect";
+
+        //this is a hack to mimic behavior of pushView, then pop off the "current" from the history
+        self.history.push(viewDescriptor);
+        self.updateView(viewDescriptor);
+        self.history.pop();
+        self.history.pop();
+        self.history.push(viewDescriptor);
+    };
     if (this.animating) {
         console.log('replaceView will return it is animating');
+        var handler = function () {
+            doReplace();
+            amplify.unsubscribe('msg:animation:finish', handler);
+        };
+        amplify.subscribe('msg:animation:finish', handler);
         return false;
     }
-    viewDescriptor.animation = "pushEffect";
 
-    //this is a hack to mimic behavior of pushView, then pop off the "current" from the history
-    this.history.push(viewDescriptor);
-    this.updateView(viewDescriptor);
-    this.history.pop();
-    this.history.pop();
-    this.history.push(viewDescriptor);
+    doReplace();
 
     return true;
 };
@@ -82,7 +92,6 @@ ViewNavigator.prototype.pushView = function(viewDescriptor) {
 };
 
 ViewNavigator.prototype.popView = function() {
-
     if (this.animating || this.history.length <= 1)
         return;
 
@@ -104,7 +113,7 @@ ViewNavigator.prototype.setHeaderPadding = function(amount) {
     }
 };
 
-ViewNavigator.prototype.updateView = function(viewDescriptor) {
+ViewNavigator.prototype.updateView = function (viewDescriptor) {
 
     this.animating = true;
 
@@ -170,7 +179,7 @@ ViewNavigator.prototype.updateView = function(viewDescriptor) {
         }
     }
 
-    $(this.contentPendingRemove).click(function() { return false; });
+    $(this.contentPendingRemove).click(function () { return false; });
 
 
     if (viewDescriptor.animation == "popEffect") {
@@ -270,6 +279,7 @@ ViewNavigator.prototype.updateView = function(viewDescriptor) {
         this.header.append(this.headerContent);
         this.animating = false;
         this.resetScroller();
+        amplify.publish('msg:animation:finish');
     }
 
     if (viewDescriptor.backLabel) {
@@ -343,6 +353,7 @@ ViewNavigator.prototype.animationCompleteHandler = function(removalTarget, heade
             headerRemovalTarget.unbind("click");
             headerRemovalTarget.detach();
         }
+        amplify.publish('msg:animation:finish');
     };
 };
 
