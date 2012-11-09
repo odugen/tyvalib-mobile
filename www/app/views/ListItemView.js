@@ -22,8 +22,11 @@ window.ListItemView = Backbone.View.extend({
         var $html = $(html);
         var $desc = $('#descriptions', $html);
         console.log($desc.html());
-        _.each(this.model.descriptions, function (description) {
-            $desc.append('<dt>' + description + '</dt>');
+        _.each(this.model.descriptions, function (d) {
+            $desc.append('<dt>' + d.description + ' <sup>' + d.language + '<sup></dt>');
+            if (d.example) {
+                $desc.append('<dd>' + d.example + '</dd>');
+            }
         }, this);
         this.$el.html($html.html());
         this.$el.attr('id', model.factual_id);
