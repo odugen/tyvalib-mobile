@@ -2,11 +2,11 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.phonegap.tyvalib"
-        version   = "0.0.2">
-    <name>Tyvalib - dictionary (сөстүк)</name>
+        version   = "0.0.3">
+    <name>Tyvalib</name>
 
     <description>
-        Tyvalib - dictionary. Dictionary from Tyvan to Tyvan, English, Russian languages.
+        Tyvalib - tuvan language project. Проект тувинского языка.
     </description>
 
     <author href="http://tyvalib.ru" email="alexey.oyun@gmail.com">
