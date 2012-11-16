@@ -1,8 +1,9 @@
-
 document.addEventListener("deviceready", onDeviceReady, false);
+
 if (window.location && window.location.hash && 0 <= window.location.hash.indexOf('debug')) {
     setTimeout(onDeviceReady, 500);
 }
+
 function onDeviceReady() {
     jQuery.support.cors = true;
 
@@ -25,6 +26,7 @@ function appTemplatesLoaded() {
     //Setup the ViewNavigator
     window.viewNavigator = new ViewNavigator('body');
     window.viewNavigator.pushView(homeView);
+    document.addEventListener("searchbutton", homeView, false);
     document.addEventListener("backbutton", onBackKey, false);
 }
 

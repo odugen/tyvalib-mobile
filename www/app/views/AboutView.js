@@ -2,8 +2,8 @@
 
 window.AboutView = Backbone.View.extend({
 
-    title: "Information",
-    backLabel: "Дээдир",
+    title: "Проекти дугайында",
+    backLabel: "Дедир",
 
     initialize: function () {
         this.render();
