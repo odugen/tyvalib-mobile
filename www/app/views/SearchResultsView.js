@@ -3,7 +3,7 @@
 window.SearchResultsView = Backbone.View.extend({
 
     destructionPolicy: 'never',
-    title: "Тывылган сөстер?",
+    title: "Тывылган сөстер",
     backLabel: "Дедир",
 
     initialize: function (options) {

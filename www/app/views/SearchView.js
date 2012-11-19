@@ -2,7 +2,7 @@
 
 window.SearchView = Backbone.View.extend({
 
-    title: "Тып тур бис...",
+    title: "Дилеп тур бис...",
 
     initialize: function (options) {
 
